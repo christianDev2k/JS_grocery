@@ -1,0 +1,27 @@
+.grocery {
+    width: 620px;
+}
+
+.grocery__alert,
+.grocery__list,
+.grocery__clear {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.grocery__alert.active,
+.grocery__list.active,
+.grocery__clear.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.grocery__alert.danger {
+    color: rgb(239 68 68);
+    background-color: rgb(254 226 226);
+}
+
+.grocery__alert.success {
+    color: rgb(22 101 52);
+    background-color: rgb(187 247 208);
+}
