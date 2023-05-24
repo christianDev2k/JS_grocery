@@ -7,15 +7,9 @@ const groceryForm = document.querySelector('.grocery__form');
 const itemList = [];
 let index = 0;
 
-function groceryList(item) {
+function groceryList(item, index) {
     this.item = item;
-
-    this.edit = function () {
-
-    }
-    this.delete = function () {
-
-    }
+    this.id = index;
 }
 
 function checkValidation() {
@@ -31,20 +25,34 @@ function showAlert(alertText, alertType) {
     }, 1000);
 }
 
+function removeItem() {
+    const delBtnList = document.querySelectorAll('.grocery__del-btn');
+    delBtnList.forEach(function (item, index) {
+        item.addEventListener('click', function (e) {
+            e.preventDefault();
+            const getElement = e.target.dataset.id;
+            document.getElementById(getElement).outerHTML = '';
+            itemList.splice(index, 1);
+            showAlert('Item Removed', 'danger');
+            console.log(index, itemList);
+        })
+    })
+}
+
 function addItem() {
     let item = groceryInput.value;
-    itemList[index] = new groceryList(item);
-
+    itemList[index] = new groceryList(item, index);
     let element = document.createElement('li');
+    element.id = `liIndex-${itemList[index].id}`;
     element.classList = 'flex justify-between items-center text-slate-800 hover:text-slate-400 hover:bg-slate-100 rounded-lg px-4 py-1 transition duration-500 my-1';
     element.innerHTML = `
         <p class="tracking-widest">${itemList[index].item}</p>
         <div class="flex text-xs">
-            <a href="" class="grocery__edit-btn text-green-400">
+            <a href="" data-id="liIndex-${itemList[index].id}" class="block grocery__edit-btn text-green-400">
                 <i class="fa-solid fa-pen-to-square"></i>
             </a>
-            <a href="" class="grocery__del-btn ml-4 text-red-500">
-                <i class="fa-solid fa-trash"></i>
+            <a href="" class="block grocery__del-btn ml-4 text-red-500">
+                <i data-id="liIndex-${itemList[index].id}" class="fa-solid fa-trash"></i>
             </a>
         </div>
     `;
@@ -64,16 +72,6 @@ function clearItem() {
     groceryTable.classList.remove('active');
     groceryClear.classList.remove('active');
     showAlert('Empty List', 'danger');
-}
-
-function removeItem() {
-    const delBtnList = document.querySelectorAll('.grocery__del-btn');
-    delBtnList.forEach(function(item, index) {
-        item.addEventListener('click', function(e) {
-            e.preventDefault();
-            itemList.splice(index, 1);
-        })
-    })
 }
 
 groceryBtn.addEventListener('click', function () {
